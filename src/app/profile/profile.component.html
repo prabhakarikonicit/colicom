@@ -1,0 +1,36 @@
+<div class="cc_breadcrumbs">
+    <div class="row">
+        <div class="cc_breadcrumb"><a href="#dashboard">dashboard</a></div>
+        <div class="cc_breadcrumb">my account</div>
+    </div>
+</div>
+<div class="cc_content cc_profile_pages">
+    <div class="row">
+        <div class="nine columns">
+            <h1>My Account</h1>
+            <div class="row">
+                <div class="six columns profile_block">
+                    <h2>Student Information</h2>
+                    <div><strong>{{ user.firstName }} {{ user.lastName }}</strong></div>
+                    <div>{{ user.email }}</div>
+                    <!-- <div class="primary btn">
+                        <button>Edit your Student Information</button>
+                    </div> -->
+                </div>
+                <div class="six columns profile_block">
+                    <h2>Course Information</h2>
+                    <div><strong>Course Name: {{ exam.name }}</strong></div>
+                    <div>Enrollment Date: {{ ( enrollment.created * 1000 ) | date }}</div>
+                    <div>Expires: {{ ( enrollment.expiration * 1000 ) | date }}</div>
+                    <div>State: {{ exam.state }}</div>
+                    <div>Industry: {{ exam.industry }}</div>
+                    <!-- <div class="primary btn">
+                        <button>Renew Course</button>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+        <div class="three columns">
+        </div>
+    </div>
+</div>

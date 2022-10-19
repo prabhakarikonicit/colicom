@@ -1,0 +1,40 @@
+<div class="cc_breadcrumbs mobile_hidden">
+    <div class="row">
+        <div class="cc_breadcrumb"><a href="#dashboard">dashboard</a></div>
+        <div class="cc_breadcrumb">Study Vocabulary</div>
+    </div>
+</div>
+<div class="cc_content">
+    <div class="row mode_selector">
+        <div class="mobile_hidden mode_selector_label">Change Study Mode</div>
+        <div>
+            <div class="picker">
+                <select [(ngModel)]="viewType" (change)="changeView()">
+                    <option value="flashcard">Flash cards</option>
+                    <option value="matching">Matching</option>
+                    <option value="fillintheblank">Fill-in-the-blank</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div [ngSwitch]="viewType">
+        <div *ngSwitchCase="'flashcard'">
+            <app-flashcard [flip]="flip" [progressQuestion]="progressQuestion" [questionIndex]="questionIndex"
+                [totalQuestions]="totalQuestions" [attempt]="attempt" [questionAttempt]="questionAttempt"
+                [isBookmarked]="isBookmarked()" (onMarkCorrect)="markCorrect()" (onMarkIncorrect)="markIncorrect()"
+                (onBookmark)="bookmark()" (onSave)="save($event)" (onNext)="next($event)"></app-flashcard>
+        </div>
+        <div *ngSwitchCase="'matching'">
+            <app-matching [matches]="matches" [matchingAnswers]="matchingAnswers" [matchingColors]="matchingColors" [questionAttempts]="questionAttempts"   [progressQuestion]="progressQuestion" [questionIndex]="questionIndex"
+                [totalQuestions]="totalQuestions" [attempt]="attempt" [questionAttempt]="questionAttempt" (onMarkCorrect)="markCorrect()" (onMarkIncorrect)="markIncorrect()"
+                (onBookmark)="bookmark()" (onSave)="save($event)" (onNext)="next($event)" (onNextSet)="nextSet($event)"></app-matching>
+        </div>
+        <div *ngSwitchCase="'fillintheblank'">
+            <app-fillintheblank [progressQuestion]="progressQuestion" [inputAnswer]="inputAnswer"
+                [questionIndex]="questionIndex" [totalQuestions]="totalQuestions" [attempt]="attempt"
+                [answeredCorrect]="answeredCorrect" [questionAnswered]="questionAnswered"
+                [isBookmarked]="isBookmarked()" (onShowAnswer)="showAnswer($event)" (onNext)="next($event)"
+                (onBookmark)="bookmark()" (onSave)="save($event)"></app-fillintheblank>
+        </div>
+    </div>
+</div>

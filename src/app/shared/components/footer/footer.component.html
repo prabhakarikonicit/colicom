@@ -1,0 +1,14 @@
+<div class="footer">
+    <div class="row">
+        <div class="one column info_icon"><i class="icon-info-circled"></i></div>
+        <div class="four columns">
+            <ng-container *ngIf="!isDemo()">
+                <div class="questions">Questions? We can help.</div>
+                <div class="contact_link"><a href="#/profile/contact">Contact Customer Service</a></div>
+            </ng-container>
+        </div>
+        <div class="push_four three columns legal">&copy; {{ '' | currentYear }} CompuCram. All Rights Reserved. {{ 'Version v%VERSION%' |
+            version }}
+        </div>
+    </div>
+</div>

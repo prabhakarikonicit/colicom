@@ -1,0 +1,25 @@
+<div ng-controller="CalculatorController">
+    <div class="calculator">
+        <div class="display">{{ displayValue }}</div>
+        <div class="digitsKeyboard">
+            <div class="digitKey" *ngFor="let key of digitKeys" (click)="digitClicked(key.value)">
+                {{ key.label }}
+            </div>
+            <div class="equalSignKey" (click)="compute()">
+                {{ equalSignKey.label }}
+            </div>
+        </div>
+        <div class="operationsKeyboard">
+            <div class="operationKey" *ngFor="let key of operationKeys"
+                 (click)="operationClicked(key.operation)">
+                {{ key.label }}
+            </div>
+        </div>
+        <div>
+            <div class="clearKey" (click)="clear()">
+                CLEAR
+            </div>
+        </div>
+    </div>
+
+</div>

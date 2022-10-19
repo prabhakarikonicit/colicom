@@ -1,0 +1,40 @@
+<div class="navbar">
+    <div class="row free_trial_banner" *ngIf="isTrialMode()">
+        <div class="twelve columns">
+            <div class="free_trial_btn" (click)="toggleTrialModal()">Free Trial - Click Here to Buy Now</div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="two columns">
+            <div class="cc_logo"></div>
+        </div>
+        <div class="five columns">
+            <div class="selected_exam">{{ getSelectedExamName() }} <br><span class="selected_module">{{
+                    getSelectedModuleName()
+                    }}</span>
+            </div>
+        </div>
+        <ul class="five columns" [ngClass]="{'active': mobileClick}">
+            <li [ngClass]="{'active': getSelectedItem() == 'dashboard'}" *ngIf="!isDemo()">
+                <a href="#/dashboard" (click)="setMobileClick(false); setProfileMenuSelected('')">Dashboard</a>
+            </li>
+            <li [ngClass]="{'active': getSelectedItem() == 'profile' || profileMenuSelected == 'active'}"
+                (click)="setProfileMenuSelected('active')">
+                <a>{{getCurrentUser()?.firstName}}'s Stuff</a>
+                <div class="dropdown">
+                    <ul>
+                        <li *ngIf="!isDemo()"><a href="#/profile" (click)="setMobileClick(false)">My Account</a></li>
+                        <li *ngIf="!isDemo()"><a href="#/profile/contact" (click)="setMobileClick(false)">Contact</a>
+                        </li>
+                        <li *ngIf="hasEnrollments()"><a href="#/enrollment"
+                                (click)="setMobileClick(false)">Switch Exam</a></li>
+                        <li *ngIf="!isDemo()"><a href="javascript:void(0)" (click)="setMobileClick(false); logout();">Logout</a></li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="mobile_menu" (click)="toggleMobileClick()"><i class="icon-menu"></i></div>
+</div>
+<app-trial-modal-dialog [show]="getModalShown()" [info]="getModalShown()" [url]="marketingSite"
+    [exam]="getSelectedExam()" [enrollment]="getSelectedEnrollment()"></app-trial-modal-dialog>

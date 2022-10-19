@@ -1,0 +1,102 @@
+<div class="big_top results_page cc_study_session">
+    <div class="cc_breadcrumbs">
+        <div class="row">
+            <div class="cc_breadcrumb"><a href="#dashboard">dashboard</a></div>
+            <div class="cc_breadcrumb"><a href="#study">Study Vocabulary</a></div>
+            <div class="cc_breadcrumb">Results</div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="nine columns">
+            <div class="welcome_message">
+                <h1>You completed this session</h1>
+                <p>Here's how you did:</p>
+                <div class="results_circle">
+                    <div class="results_big">{{ attempt.questionCount }}</div>
+                    <div class="results_small">Total Questions</div>
+                </div>
+                <div class="results_circle">
+                    <div class="results_big"><i class="icon-thumbs-up"></i>{{ attempt.correct }}</div>
+                    <div class="results_small">Correct</div>
+                </div>
+                <div class="results_circle">
+                    <div class="results_big"><i class="icon-thumbs-down"></i>{{ attempt.incorrect }}</div>
+                    <div class="results_small">Missed</div>
+                </div>
+                <div class="results_circle">
+                    <div class="results_big"><i class="icon-star"></i>{{ attempt.bookmarked }}</div>
+                    <div class="results_small">Marked for Review</div>
+                </div>
+            </div>
+        </div>
+        <div class="three columns">
+            <div class="cc_study_config">
+                <h4>Study Again</h4>
+                <div class="picker">
+                    <select [(ngModel)]="selectedExamModuleValue" (change)="changeExamModule()">
+                        <option *ngFor="let examModule of examModules" [value]="examModule.name">{{examModule.name}}
+                        </option>
+                    </select>
+
+                </div>
+                <div class="picker">
+                    <select [(ngModel)]="selectedModeValue" (change)="changeStudyMode()">
+                        <option *ngFor="let studyMode of studyModes" [value]="studyMode.name">{{studyMode.name}}
+                        </option>
+                    </select>
+                </div>
+                <div class="picker">
+                    <select [(ngModel)]="selectedOptionValue" (change)="openTab(selectedOptionValue)">
+                        <option *ngFor="let studyOption of studyOptions " [value]="studyOption.value">
+                            {{studyOption.name}}</option>
+                    </select>
+                </div>
+                <div class="picker">
+                    <select [(ngModel)]="selectedQuantityValue" (change)="changeStudyQuantity()">
+                        <option *ngFor="let studyQuantity of studyQuantities " [value]="studyQuantity.name">
+                            {{studyQuantity.name}}</option>
+                    </select>
+                </div>
+                <div class="cc_config_submit">
+                    <div class="btn">
+                        <button (click)="start()">Start NEW Study Session</button>
+                    </div>
+                    <p>or go back to the <a href="#dashboard">Dashboard</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="cc_content">
+    <div class="row progress_tabs">
+        <div class="progress_box marked" [ngClass]="{'selected' : toggle==1}"
+            (click)="openTab('bookmarked', attempt.bookmarked)">marked for review: <span class="cc_stat">{{
+                progress.marked }}</span>
+        </div>
+        <div class="progress_box missed" [ngClass]="{'selected' : toggle==2}"
+            (click)="openTab('incorrect', attempt.incorrect)">Marked Incorrect: <span class="cc_stat">{{
+                progress.missed }}</span>
+        </div>
+        <div class="progress_box all" [ngClass]="{'selected' : toggle==3}"
+            (click)="openTab('all', attempt.questionCount)">all: <span class="cc_stat">{{ progress.terms }}</span>
+        </div>
+        <div class="print" (click)="print()"><i class="icon-print"></i> print list</div>
+    </div>
+    <div class="row cc_cards">
+        <ngx-masonry [options]="{ gutter: 20 }">
+            <div class="cc_card cc_vocab masonry-brick masonry-item" ngxMasonryItem *ngFor="let progressQuestion of questionGroups">
+                <h3 [innerHTML]="progressQuestion.question.questionText"></h3>
+
+                <p [innerHTML]="progressQuestion.question.answers[0].answerText"></p>
+                <hr>
+                <div class="two_up tiles">
+                    <div class="tile cc_footnote">Viewed {{ progressQuestion.viewed }} times</div>
+                    <div class="tile cc_bookmark ttip" data-tooltip="Mark this question for review"
+                         [ngClass]="{'active': progressQuestion.bookmarked}" (click)="bookmark(progressQuestion);">Mark
+                        for review
+                    </div>
+                </div>
+            </div>
+        </ngx-masonry>
+    </div>
+</div>

@@ -1,0 +1,44 @@
+<div class="cc_login_container">
+    <div class="cc_logo"></div>
+    <form name="form" novalidate class="login-form">
+        <div class="cc_login_box">
+            <h1>Select your course</h1>
+
+            <div class="cc_courses">
+                <div class="cc_course" *ngFor="let enrollment of enrollments | orderBy:'expiration':true" (click)="openEnrollment(enrollment)">
+                    <div class="trial" *ngIf="isTrial(enrollment)">Trial</div>
+                    <div class="course_name">{{enrollment.exam.name}}</div>
+                    <div class="two_up tiles" *ngIf="!isExpired(enrollment) && !isDisabled(enrollment)">
+                        <div class="tile course_expiration">&nbsp;<span *ngIf="canExpire(enrollment)">Expires {{ (
+                                enrollment.expiration * 1000 ) | date:'shortDate' }}</span>
+                        </div>
+                        <div class="tile course_open_link">Open Course</div>
+                    </div>
+                    <div class="two_up tiles" *ngIf="!isExpired(enrollment) && isDisabled(enrollment)">
+                        <div class="tile course_expiration">Disabled</div>
+                        <div class="tile course_open_link"></div>
+                    </div>
+                    <div class="two_up tiles" *ngIf="isExpired(enrollment)">
+                        <div class="tile course_expiration">Expired {{ ( enrollment.expiration * 1000 ) |
+                            date:'shortDate' }}
+                        </div>
+                        <div class="tile course_open_link">Buy Extension</div>
+                    </div>
+                </div>
+
+
+                <div *ngIf="!enrollments.length">
+                    You currently do not have any exams available.
+                </div>
+            </div>
+
+
+        </div>
+    </form>
+    <div class="cc_login_footer">
+        <p><i class="icon-info-circled"></i>Questions? We can help. <a href="{{ MARKETING_SUPPORT_SITE | urlToEnvironment }}">Contact
+                Customer Service</a></p>
+    </div>
+    <div class="cc_login_legal">&copy; {{ '' | currentYear }} CompuCram. All Rights Reserved. {{ 'Version v%VERSION%' |
+        version }}</div>
+</div>

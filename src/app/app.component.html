@@ -1,0 +1,16 @@
+<div class="cc_wrapper {{extraHeaderClass}}" [ngClass]="{'free_trial': isTrialMode()}">
+    <div class="cc_loading" *ngIf="isLoadingEnabled()">
+        <div>
+            <p>{{getLoadingMessage()}}</p>
+        </div>
+    </div>
+    <div class="navcontain fixed" *ngIf="!extraHeaderClass">
+        <app-header></app-header>
+    </div>
+    <div class="site_body" [ngClass]="{'homepage': getSelectedItem() == 'home'}">
+        <router-outlet></router-outlet>
+    </div>
+    <div class="footer" *ngIf="!extraHeaderClass">
+        <app-footer></app-footer>
+    </div>
+</div>

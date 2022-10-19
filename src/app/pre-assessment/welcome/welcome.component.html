@@ -1,0 +1,38 @@
+<div class="cc_login_container">
+    <div class="cc_logo"></div>
+    <form name="form" novalidate class="login-form">
+        <div class="cc_login_box">
+            <h5>{{ getSelectedExamName() }}</h5>
+            <h1>Welcome!</h1>
+            <p>We suggest taking a pre-assessment as your first step in studying for your exam.</p>
+            <p>This mini-test will help you understand what you need to study so you can focus on learning exactly what
+                you need to know.</p>
+            <p>There are {{ numberOfQuestions }} questions and we estimate it will take {{ numberOfQuestions * 1.5 | number:'1.0-0' }} minutes to complete.</p>
+            <p>You can only take the pre-assessment once. There's no need to worry. If you don't have time to take it
+                now, you can also launch it from your dashboard at a later time.</p>
+            <br />
+            <div class="cc_red btn">
+                <button type="button" (click)="start()">Launch Pre-assessment</button>
+            </div>
+            <div class="or_divider row">
+                <div class="five columns">
+                    <hr>
+                </div>
+                <div class="two columns">or</div>
+                <div class="five columns">
+                    <hr>
+                </div>
+            </div>
+            <div class="cc_dark btn">
+                <button type="button" (click)="goToDashboard()">Skip Pre-assessment</button>
+            </div>
+        </div>
+    </form>
+    <div class="cc_login_footer">
+        <p><i class="icon-info-circled"></i>Questions? We can help. <a href=""
+                (click)="goToMarketingSupportSite()">Contact
+                Customer Service</a></p>
+    </div>
+    <div class="cc_login_legal">&copy; {{ '' | currentYear }} CompuCram. All Rights Reserved. {{ 'Version v%VERSION%' |
+        version }}</div>
+</div>

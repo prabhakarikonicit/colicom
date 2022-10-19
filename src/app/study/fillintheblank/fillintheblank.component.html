@@ -1,0 +1,79 @@
+<div class="row cc_study">
+    <div class="nine columns">
+        <div class="cc_study_box cc_fitb">
+            <div class="row cc_study_progress">
+                <div class="five columns">
+                    <div class="progress_bar">
+                        <div class="percent_complete" [ngStyle]="{ width: questionIndex / totalQuestions * 100 + '%' }">
+                        </div>
+                    </div>
+                </div>
+                <div class="three columns gray_italic">
+                    {{questionIndex+1}} of {{totalQuestions}}
+                    <i class="icon-thumbs-up"></i><span>{{ attempt.correct }}</span>
+                    <i class="icon-thumbs-down"></i><span>{{ attempt.incorrect }}</span>
+                </div>
+                <div class="push_three two columns"></div>
+            </div>
+            <div class="row cc_study_content">
+                <div class="cc_question_text" *ngIf="progressQuestion.question">
+                    <p [innerHTML]="progressQuestion.question.answers[0].answerText"></p>
+                </div>
+                <div class="row">
+                    <div class="cc_answer_section" [ngSwitch]="answeredCorrect">
+                        <ng-container *ngIf="questionAnswered">
+                            <div class="correct_message" *ngSwitchCase="true">Correct!</div>
+                            <div class="incorrect_message" *ngSwitchCase="false">Sorry, the
+                                answer is:
+                            </div>
+                        </ng-container>
+                        <div class="cc_fitb_blanks" *ngIf="progressQuestion.question">
+                            <div class="cc_fitb_word"
+                                *ngFor="let word of progressQuestion.question.questionText | splitBy:'space';  let parentIndex = index">
+                                <div class="fitb_input field" *ngFor="let char of word | splitBy; let index = index">
+                                    <input focus-others class="input" type="text" maxlength="1"
+                                        [(ngModel)]="inputAnswer[parentIndex][index]"
+                                        [disabled]="(questionAnswered || shouldShowChar(char, parentIndex, index))"
+                                        tabindex="{{index+(parentIndex*100)}}" [attr.word-index]="parentIndex"
+                                        [attr.word-length]="word.length" />
+                                </div>
+                            </div>
+                            <ng-container *ngIf="questionAnswered">
+                                <div class="field" *ngSwitchCase="false">
+                                    <input type="text" class="input" [(ngModel)]="retypeAnswer" placeholder="Type answer to continue">
+                                </div>
+                            </ng-container>
+
+                        </div>
+                        <a href="javascript:void(0)" class="show_hint" (click)="showHint()" *ngIf="!questionAnswered">Show Hint</a>
+                    </div>
+                </div>
+            </div>
+            <div class="row cc_study_footnotes">
+                <div class="gray_italic cc_viewed">Viewed {{ progressQuestion.viewed }} times.</div>
+            </div>
+            <hr>
+            <div class="row cc_study_bottom">
+                <div class="four columns cc_next_btn">
+                    <div class="primary btn" *ngIf="!questionAnswered">
+                        <button (click)="showAnswer();">Show Answer</button>
+                    </div>
+                    <div class="primary btn" *ngIf="questionAnswered"
+                        [ngClass]="{'disabled': !((questionAnswered && answeredCorrect ) || (questionAnswered && checkAnswer(retypeAnswer)))}">
+                        <button (click)="next();retypeAnswer=''"
+                            [disabled]="!((questionAnswered && answeredCorrect ) || (questionAnswered && checkAnswer(retypeAnswer)))">
+                            Next Term
+                        </button>
+                    </div>
+                </div>
+                <div class="eight columns cc_bookmark ttip" data-tooltip="Mark this question for review"
+                    (click)="bookmark();" [ngClass]="{'active': isBookmarked}"></div>
+            </div>
+        </div>
+    </div>
+    <div class="three columns session_options">
+        <div class="primary btn">
+            <button (click)="save()">Save & Exit</button>
+        </div>
+    </div>
+</div>

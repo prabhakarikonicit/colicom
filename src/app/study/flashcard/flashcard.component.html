@@ -1,0 +1,119 @@
+<div class="row cc_study">
+    <div class="nine columns">
+        <div class="cc_flashcard" [ngClass]="{'active': flip.active}">
+            <div class="flipper">
+                <div class="flashcard_front">
+                    <div class="cc_study_box">
+                        <div class="row cc_study_progress">
+                            <div class="five columns">
+                                <div class="progress_bar">
+                                    <div class="percent_complete"
+                                         [ngStyle]="{ width: questionIndex / totalQuestions * 100 + '%' }"></div>
+                                </div>
+                            </div>
+                            <div class="seven columns gray_italic">
+                                <div class="two_up tiles">
+                                    <div class="tile">
+                                        {{questionIndex+1}} of {{totalQuestions}}
+                                        <i class="icon-thumbs-up"></i><span>{{ attempt.correct }}</span>
+                                        <i class="icon-thumbs-down"></i><span>{{ attempt.incorrect }}</span>
+                                    </div>
+                                    <div class="tile cc_listen" (click)="playSound()" *ngIf="hasAudio()">
+                                        <div *ngIf="audio.loading" class="loading_sound"><img
+                                                src="assets/img/ajax-loader.gif"/></div>
+                                        Listen <i class="icon-sound"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row cc_study_content">
+                            <div *ngIf="showTermFirst">
+                                <h2 [innerHTML]="progressQuestion.question.questionText"></h2>
+                            </div>
+                            <div *ngIf="!showTermFirst && progressQuestion.question">
+                                <h2 [innerHTML]="progressQuestion.question.answers[0].answerText"></h2>
+                            </div>
+                        </div>
+                        <div class="row cc_study_footnotes">
+                            <div class="gray_italic cc_viewed">Viewed {{ progressQuestion.viewed }} times</div>
+                        </div>
+                        <hr>
+                        <div class="two_up tiles cc_study_bottom">
+                            <div class="tile">
+                                <div class="tile cc_flip_card" (click)="flipCard()"><span>click to flip</span> <i
+                                        class="icon-arrows-ccw"></i></div>
+                            </div>
+                            <div class="tile">
+                                <div class="cc_bookmark ttip" data-tooltip="Mark this question for review"
+                                     (click)="bookmark();" [ngClass]="{'active': isBookmarked}"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flashcard_back">
+                    <div class="cc_study_box">
+                        <div class="row cc_study_progress">
+                            <div class="five columns">
+                                <div class="progress_bar">
+                                    <div class="percent_complete"
+                                         [ngStyle]="{ width: questionIndex / totalQuestions * 100 + '%' }"></div>
+                                </div>
+                            </div>
+                            <div class="three columns gray_italic">
+                                {{questionIndex+1}} of {{totalQuestions}}
+                                <i class="icon-thumbs-up"></i><span>{{ attempt.correct }}</span>
+                                <i class="icon-thumbs-down"></i><span>{{ attempt.incorrect }}</span>
+                            </div>
+                        </div>
+                        <div class="row cc_study_content">
+                            <div *ngIf="showTermFirst">
+                                <h3 [innerHTML]="progressQuestion.question.questionText"></h3>
+                                <p [innerHTML]="progressQuestion.question.answers[0].answerText"></p>
+                            </div>
+                            <div *ngIf="!showTermFirst && progressQuestion.question">
+                                <h3 [innerHTML]="progressQuestion.question.answers[0].answerText"></h3>
+                                <p [innerHTML]="progressQuestion.question.questionText"></p>
+                            </div>
+                        </div>
+                        <div class="row cc_study_footnotes">
+                            <div class="gray_italic cc_viewed">Viewed {{ progressQuestion.viewed }} times</div>
+                        </div>
+                        <hr>
+                        <div class="row cc_study_bottom">
+                            <div class="nine columns">
+                                <div class="two_up tiles got_it_missed_it">
+                                    <div class="yesno tile missed_it"
+                                         [ngClass]="{'active': questionAttempt?.incorrect, '': questionAttempt?.correct}"
+                                         (click)="processing || answered(false);"
+                                         [attr.disabled]="processing"><i class="icon-thumbs-down"></i>
+                                        <span>missed it</span></div>
+                                    <div class="yesno tile got_it"
+                                         [ngClass]="{'active': questionAttempt?.correct, '': questionAttempt?.incorrect}"
+                                         (click)="processing || answered(true);"
+                                         [attr.disabled]="processing"><i class="icon-thumbs-up"></i> <span>got it</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="three columns cc_bookmark ttip" data-tooltip="Mark this question for review"
+                                 (click)="bookmark();" [ngClass]="{'active': isBookmarked}"></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="three columns session_options">
+        <div class="cc_red btn">
+            <button (click)="save()">Save &amp; Exit</button>
+        </div>
+        <br/><br/>
+        <div class="switch_btn" [ngClass]="{'active': !showTermFirst}"
+             (click)="showTermFirst=!showTermFirst">
+            <div class="switch"></div>
+            <div class="switch_opt_one">Word First</div>
+            <div class="switch_opt_two">Definition First</div>
+        </div>
+    </div>
+</div>
+

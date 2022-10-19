@@ -1,0 +1,105 @@
+<div class="big_top cc_practice_session">
+    <div class="cc_breadcrumbs">
+        <div class="row">
+            <div class="cc_breadcrumb"><a href="#dashboard">dashboard</a></div>
+            <div class="cc_breadcrumb">Practice Testing</div>
+        </div>
+    </div>
+    <div class="row cc_practice_top">
+        <div class="six columns">
+            <div class="welcome_message">
+                <h2>Practice Testing: {{selectedExamModule.name}}</h2>
+
+                <p>There are {{ selectedExamModule.practiceQuestions }} questions in this practice test. We estimate it
+                    will
+                    take you {{ selectedExamModule.practiceQuestions * 1.5 | number:'1.0-0' }} minutes to complete. You can
+                    save your session and come back later if needed.</p>
+
+                <h3>Select Category</h3>
+
+                <div class="row">
+                    <div class="seven columns">
+                        <div class="picker">
+                            <!-- <select ng-model="selectedExamModule"
+                                    ng-options="examModule.name for examModule in examModules"
+                                    ng-change="changeExamModule()"></select> -->
+                                    <select [(ngModel)]="selectedExamModule" (change)="changeExamModule()">
+                                        <option *ngFor="let examModule of examModules" [ngValue]='examModule'>{{examModule.name}}</option>
+                                    </select>
+                                    
+                        </div>
+                    </div>
+                    <div class="five columns">
+                        <div class="btn cc_blue">
+                            <button (click)="start()">Start Practice Session</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="push_one five columns ">
+            <div class="recent_sessions">
+                <h3>Recent Practice Testing Sessions</h3>
+
+                <div class="recent_session" *ngFor="let attempt of displayTheseAttempts">
+                    <ng-container *ngIf="attempt.completed; then complete else incomplete"></ng-container>
+                    <ng-template #complete>
+                        <div class="row">
+                            <div class="eight columns session_results"><span class="big_number">{{ attempt.score }}%</span> {{ attempt.completed * 1000 | date:'mediumDate' }}</div>
+                            <div class="four columns review_resume"><a (click)="review(attempt)">Review Session <i class="icon-right-open-big"></i></a></div>
+                        </div>
+                    </ng-template>
+                    <ng-template #incomplete>
+                        <div class="row">
+                            <div class="eight columns session_results"><span class="incomplete">Incomplete </span> {{ attempt.created * 1000 | date:'mediumDate' }}</div>
+                            <div class="four columns review_resume"><a (click)="resume(attempt)">Continue <i class="icon-right-open-big"></i></a></div>
+                        </div>
+                    </ng-template>
+                </div>
+                <hr>
+                <ul class="see_all_recent two_up tiles">
+                    <li><a *ngIf="isLessAttempts()" (click)="displayPreviousAttempts()"><i
+                            class="icon-left-open-mini"></i> previous attempts</a>&nbsp;</li>
+                    <li class="text-right">&nbsp;<a *ngIf="isMoreAttempts()" (click)="displayNextAttempts()">next
+                        attempts <i class="icon-right-open-mini"></i></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cc_content">
+    <div class="row progress_tabs">
+        <div class="progress_box marked" [ngClass]="{'selected' : toggle==1}">
+            Marked for review: <span class="cc_stat">{{ pqManager.getTotalBookmarked() }}</span>
+        </div>
+        <!-- <div class="progress_box missed" [ngClass]="{'selected' : toggle==2}" >TIPS & VIDEOS </div> -->
+        <!-- <div class="progress_box unseen" [ngClass]="{'selected' : toggle==3}" >AT THE TESTING CENTER </div> -->
+        <div class="print" (click)="print();"><i class="icon-print"></i> print list</div>
+    </div>
+
+    <div class="row no_cards" *ngIf="pqManager.getTotalBookmarked() == 0">
+        <div class="centered six columns">Start marking questions for review to see them appear here in your review
+            window.
+        </div>
+    </div>
+
+    <div class="row cc_cards" [hidden]="pqManager.getTotalBookmarked() == 0">
+        <ngx-masonry [options]="{ gutter: 20 }">
+            <div class="cc_card cc_vocab masonry-brick masonry-item" ngxMasonryItem *ngFor="let progressQuestion of questionGroups">
+                <h3 [innerHTML]="progressQuestion.question.questionText"></h3>
+
+                <p [innerHTML]="(progressQuestion.question.answers | filterKeyVal:{correct:true})[0].answerText"></p>
+                <hr>
+                <div class="two_up tiles">
+                    <div class="tile cc_footnote">Viewed {{ progressQuestion.viewed }} times</div>
+                    <div class="tile cc_bookmark ttip" data-tooltip="Mark this question for review"
+                         [ngClass]="{'active': progressQuestion.bookmarked}" (click)="bookmark(progressQuestion);">Mark
+                        for review
+                    </div>
+                </div>
+            </div>
+        </ngx-masonry>
+    </div>
+
+</div>

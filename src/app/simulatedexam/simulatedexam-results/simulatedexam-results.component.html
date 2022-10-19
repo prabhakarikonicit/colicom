@@ -1,0 +1,126 @@
+<div class="results_page cc_exam_session">
+    <div class="big_top">
+        <div class="cc_breadcrumbs">
+            <div class="row">
+                <div class="cc_breadcrumb"><a href="#dashboard">dashboard</a></div>
+                <div class="cc_breadcrumb"><a href="#simulated-exam">Simulated Exam</a></div>
+                <div class="cc_breadcrumb">Results</div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="nine columns">
+                <div class="welcome_message">
+                    <h1>You completed this session</h1>
+                    <p>Here's how you did on {{ attempt.completed * 1000 | date:'medium' }}:</p>
+                    <div class="results_circle">
+                        <div class="results_big">{{ attempt.questionCount }}</div>
+                        <div class="results_small">Total Questions</div>
+                    </div>
+                    <div class="results_circle">
+                        <div class="results_big"><i class="icon-thumbs-up"></i> {{(questionAttempts |
+                            filterKeyVal:{correct:true}).length }}</div>
+                        <div class="results_small">Correct</div>
+                    </div>
+                    <div class="results_circle">
+                        <div class="results_big"><i class="icon-thumbs-down"></i>
+                            {{ questionAttempts.length - (questionAttempts | filterKeyVal:{correct:true}).length }}
+                        </div>
+                        <div class="results_small">Missed</div>
+                    </div>
+                    <div class="results_circle">
+                        <div class="results_big"><i class="icon-star"></i> {{(questionAttempts |
+                            filterKeyVal:{bookmarked:true}).length }}</div>
+                        <div class="results_small">Marked for Review</div>
+                    </div>
+                </div>
+                <div class="start_session">
+                    <div class="btn">
+                        <button (click)="start()">Re-take Simulated Exam</button>
+                    </div>
+                    <div>or go back to the <a href="#dashboard">Dashboard</a></div>
+                </div>
+            </div>
+            <div class="three columns">
+                <div class="cc_completion_circle">
+                    <div class="cc_progress_circle progress-{{ attempt.score }}">
+                        <div class="cc_circle_orverlay">
+                            <div class="cc_circle_title">Category Progress</div>
+                            <div class="cc_circle_percent">{{ attempt.score }}%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="cc_content">
+        <div class="row progress_tabs">
+            <div class="progress_box all" [ngClass]="{'selected' : toggle==3}" (click)="expandCategories();toggle=3;">
+                View by Category
+            </div>
+            <div class="progress_box marked" [ngClass]="{'selected' : toggle==1}"
+                (click)="expandCategories('bookmarked');toggle=1;">
+                marked for review: <span class="cc_stat">{{(questionAttempts | filterKeyVal:{bookmarked:true}).length
+                    }}</span></div>
+            <div class="progress_box missed" [ngClass]="{'selected' : toggle==2}"
+                (click)="expandCategories('incorrect');toggle=2;">
+                missed: <span class="cc_stat">{{ questionAttempts.length - (questionAttempts |
+                    filterKeyVal:{correct:true}).length }}</span>
+            </div>
+            <div class="print" (click)="print();"><i class="icon-print"></i> print list</div>
+        </div>
+        <div>
+            <div *ngFor="let result of results | orderBy:'sort':false" class="results_cat row">
+                <div class="results_cat_hdr">
+                    <div class="three columns"><span class="category_title">{{ result.name }}</span></div>
+                    <div class="two columns"><span class="cc_stat">{{ result.total }}</span> Total Questions</div>
+                    <div class="one columns"><span class="cc_stat">{{ result.correct }}</span> Correct</div>
+                    <div class="one columns"><span class="cc_stat">{{ result.incorrect }}</span> Missed</div>
+                    <div class="three columns"><i class="icon-star"></i> <span class="cc_stat">{{ result.bookmarked
+                            }}</span> Marked for Review
+                    </div>
+                    <div class="two columns">
+                        <div class="btn cc_yellow">
+                            <button (click)="result.categoryOpen=!result.categoryOpen">{{ result.categoryOpen ? 'Hide'
+                                : 'Show' }} Questions
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="result.categoryOpen" class="cat_answers">
+                    <div class="question_attempt row"
+                        *ngFor="let questionAttempt of result.questionAttempts; let index=index;"
+                        [ngClass]="{'incorrect':questionAttempt.correct==false}">
+                        <div class="eight columns">
+                            <div class="marked_for_review" [ngClass]="{'active': questionAttempt.bookmarked}"><i
+                                    class="icon-star"></i> Marked for Review
+                            </div>
+                            <h3><i class="icon-thumbs-up"></i><i class="icon-thumbs-down"></i> Question ({{ index + 1
+                                }} of {{ result.questionAttempts.length }})</h3>
+                            <div class="question_text">{{ questionAttempt.question.questionText }}</div>
+                            <div class="question_answers">
+                                <ng-container
+                                    *ngFor="let answer of questionAttempt.question.answers | orderBy:'correct':true">
+                                    <div class="question_answer"
+                                        *ngIf="answer.correct || questionAttempt.answer == answer.id"
+                                        [ngClass]="{'correct': answer.correct, 'selected': (questionAttempt.answer == answer.id)}">
+                                        <span ng-if="answer.correct" class="correct_answer">Correct Answer: </span>
+                                        <span ng-if="!answer.correct" class="incorrect_answer">Your Answer: </span>
+                                        {{ answer.answerText }}
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </div>
+                        <div class="four columns" *ngIf="questionAttempt.question.feedback">
+                            <div class="question_rationale">
+                                <strong>Rationale</strong>
+                                <div>{{ questionAttempt.question.feedback}}</div>
+                            </div>
+                            <div class="gray_italic text-right" style="padding-top:20px">ID: {{
+                                questionAttempt.question.id }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

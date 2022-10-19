@@ -1,0 +1,31 @@
+<div class="cc_breadcrumbs mobile_hidden">
+    <div class="row">
+        <div class="cc_breadcrumb"><a href="#dashboard">dashboard</a></div>
+        <div class="cc_breadcrumb"><a href="#practice">Practice Testing</a></div>
+        <div class="cc_breadcrumb">Attempt</div>
+    </div>
+</div>
+
+<div class="row cc_study">
+    <div class="nine columns">
+
+        <app-question-box
+                [progress]="progress"
+                [question]="question"
+                [terms]="glossaryTerms"
+                [config]="directiveConfig"
+                (callbackCheck)="check($event)"
+                (callbackNext)="next()"
+                (callbackBookmark)="bookmark()">
+        </app-question-box>
+
+    </div>
+    <div class="three columns session_options">
+        <div class="cc_red btn">
+            <button (click)="save()">Save &amp; Exit</button>
+        </div>
+
+        <app-calculator></app-calculator>
+
+    </div>
+</div>

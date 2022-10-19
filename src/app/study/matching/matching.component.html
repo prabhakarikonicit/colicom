@@ -1,0 +1,93 @@
+<div class="row cc_study cc_matching">
+    <div class="nine columns">
+        <div class="cc_study_box">
+            <div class="row cc_study_progress">
+                <div class="five columns">
+                    <div class="progress_bar">
+                        <div class="percent_complete"
+                             [ngStyle]="{ width: questionIndex / totalQuestions * 100 + '%' }"></div>
+                    </div>
+                </div>
+                <div class="three columns gray_italic">
+                    {{questionIndex+1}} of {{totalQuestions}}
+                    <i class="icon-thumbs-up"></i><span>{{ attempt.correct }}</span>
+                    <i class="icon-thumbs-down"></i><span>{{ attempt.incorrect }}</span>
+                </div>
+            </div>
+            <div class="row cc_study_content">
+                <div class="matching_desktop">
+                    <div class="four columns">
+                        <div *ngFor="let questionAttempt of matches; let index = index"
+                            class="match_term {{matchingColors[index]}}" draggable
+                            [ngClass]="{'selected': isSelectedMatch(questionAttempt.id)}"
+                            [dragData]="{data: questionAttempt, color: matchingColors[index]}"
+                            [innerHTML]="getProgressQuestionForQuestionId(questionAttempt.questionId).question.questionText"
+                            >
+                            <div class="cc_movable"></div>
+                        </div>
+                    </div>
+                    <div class="push_two six columns">
+                        <div *ngFor="let questionAttempt of matchingAnswers; let index = index;"
+                            class="match_def {{getItem(index).color}}" droppable
+                            (onDrop)="onDrop(index, questionAttempt.id, $event)">
+                            <span class="selected_answer" [innerHTML]="getWordFor(index)"></span>
+                            <span class="match_undo" *ngIf="getWordFor(index)" (click)="unSelect(index)"><i
+                                    class="icon-erase"></i></span>
+                            <span class="match_correct" *ngIf="graded && getItem(index).correct"><i
+                                    class="icon-thumbs-up"></i></span>
+                            <span class="match_incorrect" *ngIf="graded && !getItem(index).correct"><i
+                                    class="icon-thumbs-down"></i></span>
+                            <hr>
+                            <span
+                                [innerHTML]="getProgressQuestionForQuestionId(questionAttempt.questionId).question.answers[0].answerText"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="matching_mobile">
+                    <div *ngFor="let questionAttempt of matches; let index = index; " class="match_def {{getItem(index).color}}"
+                        (click)="mobileQuestionSelected(index, questionAttempt)">
+                        {{ setItemId(index, questionAttempt.id)}}
+                        <span class="selected_answer" [innerHTML]="getWordFor(index)"></span>
+                        <span class="match_undo" *ngIf="!graded && getWordFor(index)"
+                            (click)="mobileAnswerUnSelect(index)"><i class="icon-erase"></i></span>
+                        <span class="match_correct" *ngIf="graded && getItem(index).correct">Correct <i
+                                class="icon-thumbs-up"></i></span>
+                        <span class="match_incorrect" *ngIf="graded && !getItem(index).correct">Incorrect <i
+                                class="icon-thumbs-down"></i></span>
+                        <hr>
+                        <span
+                            [innerHTML]="getProgressQuestionForQuestionId(questionAttempt.questionId).question.answers[0].answerText"></span>
+                    </div>
+                    <div class="modal" [ngClass]="{'active': mobileMatching.showAnswers}" id="modal1">
+                        <div class="content">
+                            <a href="javascript:void(0)" class="close" (click)="mobileMatching.showAnswers=false"><i
+                                    class="icon-cancel"></i></a>
+                            <div class="matching_answers_mobile">
+                                <div *ngFor="let questionAttempt of matchingAnswers; let index=index;"
+                                    class="matching_answer_mobile"
+                                    (click)="mobileAnswerSelected(index, questionAttempt)"
+                                    [ngClass]="getAnswer(index).selected ? '' : getAnswer(index).color"
+                                    [innerHTML]="getProgressQuestionForQuestionId(questionAttempt.questionId).question.questionText">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="row cc_study_bottom">
+                <div class="cc_red btn" *ngIf="!graded" [ngClass]="{'disabled': !answered}">
+                    <button (click)="checkAnswers()" [disabled]="!answered">Check</button>
+                </div>
+                <div class="cc_red btn" *ngIf="graded">
+                    <button (click)="nextSet()">Next</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="three columns session_options">
+        <div class="cc_red btn">
+            <button (click)="save()">Save &amp; Exit</button>
+        </div>
+    </div>
+</div>

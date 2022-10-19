@@ -1,0 +1,53 @@
+<div class="big_top cc_pre_assessment_session">
+    <div class="cc_breadcrumbs">
+        <div class="row">
+            <div class="cc_breadcrumb"><a href="#dashboard">dashboard</a></div>
+            <div class="cc_breadcrumb">Pre-Assessment Exam</div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="six columns">
+            <div class="welcome_message">
+                <h1>Pre-Assessment Exam</h1>
+
+                <p>There are {{ totalQuestions }} questions in this exam. You have {{ examTime }} minutes to complete.
+                    You can save your
+                    session and come back later if needed.</p>
+
+                <p><strong>You can only take the pre-assessment once.</strong></p>
+
+            </div>
+            <div class="start_session">
+                <div class="btn">
+                    <button *ngIf="attempts.length === 0"
+                            (click)="start()">Start Pre-Assessment Exam</button>
+                    <button *ngIf="attempts.length === 1 && attempts[0].completed === null"
+                            (click)="resume(attempts[0])">Resume Pre-Assessment Exam</button>
+                    <button *ngIf="attempts.length === 1 && attempts[0].completed !== null"
+                            (click)="review(attempts[0])">Review Pre-Assessment Exam</button>
+                </div>
+                <div>or go back to the <a href="#dashboard">Dashboard</a></div>
+            </div>
+        </div>
+        <div class="push_one five columns ">
+            <div class="recent_sessions">
+                <h3>Pre-Assessment Exam Sessions</h3>
+                <div class="recent_session" *ngFor="let attempt of attempts">
+                    <div *ngIf="attempt.completed">
+                        <div class="row">
+                            <div class="eight columns session_results"><span class="big_number">{{ attempt.score }}%</span> {{ attempt.completed * 1000 | date:'mediumDate' }}</div>
+                            <div class="four columns review_resume"><a (click)="review(attempt)">Review Session <i class="icon-right-open-big"></i></a></div>
+                        </div>
+                    </div>
+                    <div *ngIf="!attempt.completed">
+                        <div class="row">
+                            <div class="eight columns session_results"><span class="incomplete">Incomplete </span> {{ attempt.created * 1000 | date:'mediumDate' }}</div>
+                            <div class="four columns review_resume"><a (click)="resume(attempt)">Continue <i class="icon-right-open-big"></i></a></div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,50 @@
+<div class="big_top cc_exam_session">
+    <div class="cc_breadcrumbs">
+        <div class="row">
+            <div class="cc_breadcrumb"><a href="#dashboard">dashboard</a></div>
+            <div class="cc_breadcrumb">Simulated Exam</div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="six columns">
+            <div class="welcome_message">
+                <h1>Simulated Exam</h1>
+                <p>There are {{ totalQuestions }} questions in this exam. You have {{ examTime }} minutes to complete.
+                    You can save your
+                    session and come back later if needed.</p>
+            </div>
+            <div class="start_session">
+                <div class="btn">
+                    <button (click)="start()">Start Simulated Exam</button>
+                </div>
+                <div>or go back to the <a href="#dashboard">Dashboard</a></div>
+            </div>
+        </div>
+        <div class="push_one five columns ">
+            <div class="recent_sessions">
+                <h3>Recent Simulated Exam Sessions</h3>
+                <div class="recent_session" *ngFor="let attempt of displayTheseAttempts">
+                    <div *ngIf="attempt.completed">
+                        <div class="row">
+                            <div class="eight columns session_results"><span class="big_number">{{ attempt.score }}%</span> {{ attempt.completed * 1000 | date:'mediumDate' }}</div>
+                            <div class="four columns review_resume"><a (click)="review(attempt)">Review Session <i class="icon-right-open-big"></i></a></div>
+                        </div>
+                    </div>
+                    <div *ngIf="!attempt.completed">
+                        <div class="row">
+                            <div class="eight columns session_results"><span class="incomplete">Incomplete </span> {{ attempt.created * 1000 | date:'mediumDate' }}</div>
+                            <div class="four columns review_resume"><a (click)="resume(attempt)">Continue <i class="icon-right-open-big"></i></a></div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <ul class="see_all_recent two_up tiles">
+                    <li><a *ngIf="isLessAttempts()" (click)="displayPreviousAttempts()"><i
+                            class="icon-left-open-mini"></i> previous attempts</a>&nbsp;</li>
+                    <li class="text-right">&nbsp;<a *ngIf="isMoreAttempts()" (click)="displayNextAttempts()">next
+                        attempts <i class="icon-right-open-mini"></i></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

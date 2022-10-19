@@ -1,0 +1,90 @@
+<div class="big_top results_page cc_practice_session">
+    <div class="cc_breadcrumbs">
+        <div class="row">
+            <div class="cc_breadcrumb"><a href="#dashboard">dashboard</a></div>
+            <div class="cc_breadcrumb"><a href="#practice">Practice Testing</a></div>
+            <div class="cc_breadcrumb">Results</div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="nine columns">
+            <div class="welcome_message">
+                <h1>You completed this session</h1>
+
+                <p>Here's how you did on {{ attempt.completed * 1000 | date:'MMM d, y h:mm:ss a' }}:</p>
+
+                <div class="results_circle">
+                    <div class="results_big">{{ attempt.questionCount }}</div>
+                    <div class="results_small">Total Questions</div>
+                </div>
+                <div class="results_circle">
+                    <div class="results_big"><i class="icon-thumbs-up"></i>{{ attempt.correct }}</div>
+                    <div class="results_small">Correct</div>
+                </div>
+                <div class="results_circle">
+                    <div class="results_big"><i class="icon-thumbs-down"></i>{{ attempt.incorrect }}</div>
+                    <div class="results_small">Missed</div>
+                </div>
+                <div class="results_circle">
+                    <div class="results_big"><i class="icon-star"></i>{{ attempt.bookmarked }}</div>
+                    <div class="results_small">Marked for Review</div>
+                </div>
+            </div>
+
+            <div class="start_session">
+                <div class="btn">
+                    <button (click)="start()">Start Practice Session</button>
+                </div>
+                <div>or go back to the <a href="#dashboard">Dashboard</a></div>
+            </div>
+
+        </div>
+        <div class="three columns">
+            <div class="cc_completion_circle">
+                <div class="cc_progress_circle progress-{{ attempt.score }}">
+                    <div class="cc_circle_orverlay">
+                        <div class="cc_circle_title">Category Progress</div>
+                        <div class="cc_circle_percent">{{ attempt.score }}%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="cc_content">
+    <div class="row progress_tabs">
+        <div class="progress_box marked" [ngClass]="{'selected' : toggle==1}"
+             (click)="openTab('bookmarked', attempt.bookmarked)">marked for review: <span class="cc_stat">{{ progress.marked }}</span>
+        </div>
+        <div class="progress_box missed" [ngClass]="{'selected' : toggle==2}"
+             (click)="openTab('incorrect', attempt.incorrect)">Marked Incorrect: <span class="cc_stat">{{ progress.missed }}</span>
+        </div>
+        <div class="progress_box all" [ngClass]="{'selected' : toggle==3}"
+             (click)="openTab('all', attempt.questionCount)">all: <span class="cc_stat">{{ progress.terms }}</span>
+        </div>
+        <div class="print" (click)="print();"><i class="icon-print"></i> print list</div>
+    </div>
+
+    <div class="row cc_cards">
+        <ngx-masonry [options]="{ gutter: 20 }">
+            <div class="cc_card cc_vocab masonry-brick" ngxMasonryItem *ngFor="let progressQuestion of questionGroups">
+                <div class="two_up tiles">
+                    <div class="tiles cc_footnote text-right">ID: {{progressQuestion.question.id }}&nbsp;</div>
+                </div>
+                <h3 [innerHTML]="progressQuestion.question.questionText"></h3>
+
+                <p [innerHTML]="(progressQuestion.question.answers | filterKeyVal:{correct:true})[0].answerText"></p>
+                <hr>
+                <div class="two_up tiles">
+                    <div class="tile cc_footnote">Viewed {{ progressQuestion.viewed }} times</div>
+                    <div class="tile cc_bookmark ttip" data-tooltip="Mark this question for review"
+                         [ngClass]="{'active': progressQuestion.bookmarked}" (click)="bookmark(progressQuestion);">Mark
+                        for review
+                    </div>
+                </div>
+            </div>
+        </ngx-masonry>
+    </div>
+</div>

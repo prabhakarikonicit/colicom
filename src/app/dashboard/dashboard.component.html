@@ -1,0 +1,292 @@
+<!-- Recent Activity Popup -->
+<div class="modal recent_activity_modal" [ngClass]="{'active': showModalActivities}" id="modal1">
+    <div class="content">
+        <a href="javascript:void(0)" class="close" (click)="showModalActivities=false"><i class="icon-cancel"></i></a>
+        <div class="modal_nav"><i class="icon-left-open-big"></i></div>
+        <div class="">
+            <h2>Study Session: 2 days ago</h2>
+            <h2>10/20/2014</h2>
+            <p>You studied for <strong>55 minutes</strong></p>
+            <p>You studied <strong>34 vocab terms</strong> in exam category B.</p>
+            <p>You took <strong>2 practice tests</strong> in exam category D</p>
+            <p>You took <strong>1 simulated exam</strong>.</p>
+            <p>You studied for <strong>55 minutes</strong></p>
+            <p>You studied <strong>34 vocab terms</strong> in exam category B.</p>
+            <p>You took <strong>2 practice tests</strong> in exam category D</p>
+            <p>You took <strong>1 simulated exam</strong>.</p>
+        </div>
+        <div class="modal_nav"><i class="icon-right-open-big"></i></div>
+    </div>
+</div>
+<!-- Recent Activity Popup -->
+
+<div class="cc_breadcrumbs mobile_hidden">
+    <div class="row">
+        <div class="cc_breadcrumb">dashboard</div>
+    </div>
+</div>
+
+<div class="cc_content dashboard">
+    <div class="row dashboard_top">
+        <div class="seven columns">
+            <div class="welcome_message">
+                <h1>Are You Ready?</h1>
+
+                <p>Through a combination of Study Vocabulary, Practice Testing, and Simulated Exams - the Readiness
+                    Indicator&#8480; shows how prepared you are to pass the exam.</p>
+                <!-- <p><a href="javascript:void(0)" (click)="showModalActivities=true">See recent session data.</a></p> -->
+            </div>
+        </div>
+        <div class="push_one four columns ">
+            <app-readiness [overAllReadiness]="overAllReadiness"></app-readiness>
+        </div>
+    </div>
+    <div class="row divider">
+        <hr />
+        <hr />
+    </div>
+    <div class="row">
+        <div class="simulated_exams">
+            <h1>Pre-Assessment Exam <i (click)="showModal(1)" class="icon-info-circled icon-info-circled-dashboard"></i>
+            </h1>
+
+            <div class="cc_category" [ngClass]="{'show_options': isPreAssessmentTabOpen}">
+                <div class="row category_top" (click)="openPreAssessmentTab()">
+                    <div class="five columns category_title">Pre-Assessment Exam</div>
+                    <div class="four columns progress">
+                        <app-progress-bar [progressScore]="getPreAssessmentProgressScore()"
+                            tooltipContent="Pre-Assessment Progress: "></app-progress-bar>
+                    </div>
+                    <div class="three columns">
+                        <div class="see_details">
+                            <div class="see_details_arrow"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row category_details" *ngIf="isPreAssessmentTabOpen">
+                    <div class="five columns">
+                        <h2>
+                            <!--<span class="cc_step_number">1</span> -->
+                            Take a Pre-Assessment Exam
+                        </h2>
+
+                        <p>This mini-test will help you understand what you need to study so you can focus on learning
+                            exactly
+                            what you need to know.</p>
+
+                        <p>There are {{ getPreAssessmentQuestionCount() }} questions and we estimate it will take
+                            {{ getPreAssessmentQuestionCount() * 1.5 | number:'1.0-0' }}
+                            minutes to complete.
+                        </p>
+
+                        <p><strong>You can only take the pre-assessment once.</strong></p>
+
+                        <p>If necessary, you can exit your session and return at a later time to complete the work.</p>
+
+                        <div class="cc_red btn">
+                            <a href="javascript:void(0)" (click)="openPreAssessmentAttempt()">Launch Exam</a>
+                        </div>
+                    </div>
+                    <div class="seven columns">
+                        <div class="row">
+                            <div class="exam_attempt six columns" *ngIf="preAssessmentAttempt.id !== undefined">
+                                <div class="row" *ngIf="preAssessmentAttempt.completed === null">
+                                    <span class="cc_stat">In progress </span>
+                                    <p><a href="javascript:void(0)" (click)="openPreAssessmentAttempt()">Resume
+                                            Session</a></p>
+                                </div>
+                                <div class="row" *ngIf="preAssessmentAttempt.completed !== null">
+                                    <span class="cc_stat">{{ preAssessmentAttempt.score }}%</span>
+                                    <span class="exam_date">{{ preAssessmentAttempt.completed * 1000 |
+                                        date:'mediumDate'}} </span>
+                                    <p><a href="javascript:void(0)"
+                                            (click)="reviewPreAssessmentAttempt(preAssessmentAttempt)">Review
+                                            Session</a></p>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="mobile_hidden">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="row divider">
+        <hr />
+        <hr />
+    </div>
+    <div class="row">
+        <div class="study_practice">
+            <h1>Exam Categories <i (click)="showModal(2)" class="icon-info-circled icon-info-circled-dashboard"></i>
+            </h1>
+            <div class="cc_category" [ngClass]="{'show_options': isOpen(examModule)}"
+                *ngFor="let examModule of examModules" id="examModule{{examModule.id}}">
+                <div class="row category_top" (click)="openExamModuleTab(examModule)">
+                    <div class="five columns category_title">{{examModule.name}}</div>
+                    <div class="four columns progress">
+                        <app-progress-bar [progressScore]="getExamModuleReadinessScore(examModule)"
+                            tooltipContent="Practice Progress: "></app-progress-bar>
+                    </div>
+                    <div class="three columns">
+                        <div class="see_details">
+                            <div class="see_details_arrow"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row category_details" *ngIf="isOpen(examModule)">
+                    <div class="six columns study_vocab">
+                        <h2>
+                            <!--<span class="cc_step_number">1</span> -->
+                            Study Vocabulary
+                        </h2>
+                        <ul class="two_up tiles study_stats">
+                            <li>
+                                <div><span class="cc_stat">{{studyProgress.terms}}</span> Total Items</div>
+                                <div><span class="cc_stat">{{studyProgress.missed}}</span> Marked Missed</div>
+                                <div><span class="cc_stat">{{studyProgress.unseen}}</span> Unseen Terms</div>
+                            </li>
+                            <li class="marked_correct">
+                                <div class="number_correct">{{studyProgress.correct}}</div>
+                                Marked Correct
+                            </li>
+                        </ul>
+                        <div class="cc_red btn" [ngClass]="{'disabled': trialMode && examModule.sort > 1}">
+                            <a href="javascript:void(0)" (click)="openStudyAttempt()">Launch Study Vocab</a>
+                        </div>
+                        <div class="row">
+                            <div class="one columns"><img src="assets/img/study_stats_star.png"></div>
+                            <div class="eleven columns marked_for_review"><a href="javascript:void(0)"
+                                    (click)="openStudyAttempt()">{{studyProgress.marked}} questions</a> marked for
+                                review.</div>
+                        </div>
+                    </div>
+                    <div class="six columns practice_testing">
+                        <h2>
+                            <!--<span class="cc_step_number">2</span> -->
+                            Practice Testing
+                        </h2>
+                        <ul class="two_up tiles study_stats" *ngIf="completedPracticeAttempts.length > 0">
+                            <li>
+                                <div><span class="cc_stat">{{practiceResults.first.score}}%</span> First Score</div>
+                                <div><span class="cc_stat">{{practiceResults.last.score}}%</span> Last Score</div>
+                                <div><span class="cc_stat">{{practiceResults.best.score}}%</span> Best Score</div>
+                            </li>
+                            <li class="review_links mobile_hidden">
+                                <div><a href="javascript:void(0)"
+                                        (click)="reviewPracticeAttempt(practiceResults.first)">Review
+                                        Session</a></div>
+                                <div><a href="javascript:void(0)"
+                                        (click)="reviewPracticeAttempt(practiceResults.last)">Review
+                                        Session</a></div>
+                                <div><a href="javascript:void(0)"
+                                        (click)="reviewPracticeAttempt(practiceResults.best)">Review
+                                        Session</a></div>
+                            </li>
+                        </ul>
+                        <div class="cc_red btn" [ngClass]="{'disabled': trialMode && examModule.sort > 1}">
+                            <a href="javascript:void(0)" (click)="openPracticeAttempt()">Launch Practice Test</a>
+                        </div>
+                        <div class="row">
+                            <div class="one columns"><img src="assets/img/study_stats_star.png"></div>
+                            <div class="eleven columns marked_for_review"><a href="javascript:void(0)"
+                                    (click)="openPracticeAttempt()">{{
+                                    practiceProgress.marked }} questions</a> marked for review.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row divider">
+        <hr />
+        <hr />
+    </div>
+    <div class="row">
+        <div class="mobile_hidden simulated_exams">
+            <h1>Simulated Exams <i (click)="showModal(3)" class="icon-info-circled icon-info-circled-dashboard"></i>
+            </h1>
+
+            <div class="cc_category" [ngClass]="{'show_options': isExamTabOpen}">
+                <div class="row category_top" (click)="openExamTab()">
+                    <div class="five columns category_title">Simulated Exams</div>
+                    <div class="four columns progress">
+                        <app-progress-bar [progressScore]="getSimulatedExamReadinessScore()"
+                            tooltipContent="Simulated Exam Progress: "></app-progress-bar>
+                    </div>
+                    <div class="three columns">
+                        <div class="see_details">
+                            <div class="see_details_arrow"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row category_details" *ngIf="isExamTabOpen">
+                    <div class="five columns">
+                        <h2>
+                            <!--<span class="cc_step_number">3</span> -->
+                            Simulated Exams
+                        </h2>
+
+                        <p>After you have completed Study Vocabulary and Practice Testing work, it's time for the
+                            Simulated Exams. Each exam attempt will contain {{ getSimulatedExamQuestionCount() }}
+                            questions and you
+                            have {{ examTime }} minutes to complete.</p>
+
+                        <p>If necessary, you can exit your session and return at a later time to complete an attempt.
+                            You can also go back and study any of the individual categories if the Simulated Exam
+                            results
+                            show a deficiency in a certain area.
+                        </p>
+
+                        <div class="cc_red btn" [ngClass]="{'disabled': trialMode}">
+                            <a href="javascript:void(0)" (click)="openSimulatedExamAttempt()">Launch Exam</a>
+                        </div>
+                    </div>
+                    <div class="seven columns">
+                        <h3 *ngIf="simulatedExamAttempts.length > 0">Recent Scores</h3>
+
+                        <div class="row">
+                            <div class="exam_attempt six columns" *ngFor="let simulatedExam of displayTheseAttempts">
+                                <div class="row">
+                                    <span class="cc_stat">{{ simulatedExam.score }}%</span>
+                                    <span class="exam_date">{{ simulatedExam.completed * 1000 | date:'mediumDate' }}
+                                    </span>
+                                    <p><a href="javascript:void(0)"
+                                            (click)="reviewSimulatedExamAttempt(simulatedExam)">Review
+                                            Session</a></p>
+                                </div>
+                                <div class="row">
+                                    <div class="two columns cc_bookmark"><img src="assets/img/study_stats_star.png">
+                                    </div>
+                                    <div class="ten columns marked_for_review"><a href="javascript:void(0)"
+                                            (click)="reviewSimulatedExamAttempt(simulatedExam)">{{
+                                            simulatedExam.bookmarked }} questions</a><br>marked for review.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="mobile_hidden">
+                        <ul class="see_all_recent two_up tiles mobile_hidden">
+                            <li><a *ngIf="isLessAttempts()" (click)="displayPreviousAttempts()"><i
+                                        class="icon-left-open-mini"></i> previous attempts</a>&nbsp;</li>
+                            <li class="text-right">&nbsp;<a *ngIf="isMoreAttempts()"
+                                    (click)="displayNextAttempts()">next
+                                    attempts <i class="icon-right-open-mini"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="mobileShow">
+            <p class="simulated_exam_text">To access the <em>Simulated Exams</em> feature, please login using a computer
+                or mobile device with a
+                screen size of 7 inches or larger. If necessary, you can exit your session and return at a later time to
+                complete an attempt.
+                You can also go back and study any of the individual categories if the Simulated Exam results
+                show a deficiency in a certain area.</p>
+        </div>
+    </div>
+</div>
+<app-assessment-modal (onHideModal)="hideModal()" [show]="modalShown" [type]="modalType"></app-assessment-modal>

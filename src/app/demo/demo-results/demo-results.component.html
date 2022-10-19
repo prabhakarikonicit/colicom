@@ -1,0 +1,38 @@
+<div class="big_top results_page cc_practice_session">
+    <div class="row">
+        <div class="nine columns">
+            <div class="welcome_message">
+                <h1>You completed this session</h1>
+
+                <p>Here's how you did on {{ attempt.completed * 1000 | date:'medium' }}:</p>
+
+                <div class="results_circle">
+                    <div class="results_big">{{ attempt.questionCount }}</div>
+                    <div class="results_small">Total Questions</div>
+                </div>
+                <div class="results_circle">
+                    <div class="results_big"><i class="icon-thumbs-up"></i>{{ attempt.correct }}</div>
+                    <div class="results_small">Correct</div>
+                </div>
+                <div class="results_circle">
+                    <div class="results_big"><i class="icon-thumbs-down"></i>{{ attempt.incorrect }}</div>
+                    <div class="results_small">Missed</div>
+                </div>
+                <div class="results_circle">
+                    <div class="results_big"><i class="icon-star"></i>{{ attempt.bookmarked }}</div>
+                    <div class="results_small">Marked for Review</div>
+                </div>
+            </div>
+        </div>
+        <div class="three columns">
+            <div class="cc_completion_circle">
+                <div class="cc_progress_circle progress-{{ attempt.score }}">
+                    <div class="cc_circle_orverlay">
+                        <div class="cc_circle_title">Category Progress</div>
+                        <div class="cc_circle_percent">{{ attempt.score }}%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

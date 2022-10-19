@@ -1,0 +1,46 @@
+<div class="cc_login_container">
+    <div class="cc_logo"></div>
+    <form name="form" novalidate class="login-form">
+        <div class="cc_login_box">
+            <h1>Exam Prep Login</h1>
+            <div class="field"><input class="input" placeholder="Email" name="login" type="email"
+                    [(ngModel)]="user.email" required autofocus /></div>
+            <div class="field"><input class="input" placeholder="Password" name="pass" type="password"
+                    [(ngModel)]="user.password" required /></div>
+            <div class="cc_error" [hidden]="!(authError.length>0)">{{authError}}</div>
+            <div class="">
+                <label class="checkbox checked" for="check1">
+                    <input name="checkbox" id="check1" type="checkbox" ng-model="user.remember">
+                    <span></span> Keep me signed in
+                </label>
+            </div>
+            <div class="cc_red btn">
+                <button (click)="onLogin()" ng-disabled='form.$invalid'>Sign In</button>
+            </div>
+            <p><a (click)="forgotPassword()">Forgot your password?</a></p>
+            <div class="or_divider row">
+                <div class="five columns">
+                    <hr>
+                </div>
+                <div class="two columns">or</div>
+                <div class="five columns">
+                    <hr>
+                </div>
+            </div>
+            <h2>Need to buy exam prep?</h2>
+            <div class="cc_dark btn">
+                <button (click)="goToMarketingSite()"><span class="mobile_hidden">Take me to the
+                    </span>CompuCram
+                    website
+                </button>
+            </div>
+        </div>
+    </form>
+    <div class="cc_login_footer">
+        <p><i class="icon-info-circled"></i>Questions? We can help. <a href=""
+                (click)="goToMarketingSupportSite()">Contact
+                Customer Service</a></p>
+    </div>
+    <div class="cc_login_legal">&copy; {{ '' | currentYear }} CompuCram. All Rights Reserved. {{ 'Version v%VERSION%' |
+        version }}</div>
+</div>

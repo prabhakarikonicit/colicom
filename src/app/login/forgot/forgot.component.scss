@@ -1,0 +1,13 @@
+.site_body{
+ display: flex;   
+}
+.cc_login_back {
+    height: auto;
+    >div {
+        .cc_login_container {
+            transform: none;
+            top: initial;
+        }
+
+    }
+}

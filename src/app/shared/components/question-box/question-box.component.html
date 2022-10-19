@@ -1,0 +1,72 @@
+<div class="cc_study_box">
+
+    <div class="row cc_study_progress">
+        <div class="five columns">
+            <div class="progress_bar">
+                <div class="percent_complete"
+                     [ngStyle]="{ width: (question.number - 1 + (questionAnswered ? 1 : 0) ) / progress.totalQuestions * 100 + '%' }"></div>
+            </div>
+        </div>
+        <div *ngIf="config.showAnswer" class="three columns gray_italic">
+            {{question.number}} of {{progress.totalQuestions}}
+            <i class="icon-thumbs-up"></i><span>{{ progress.correct }}</span>
+            <i class="icon-thumbs-down"></i><span>{{ progress.incorrect }}</span>
+        </div>
+        <div *ngIf="!config.showAnswer" class="three columns gray_italic">
+            {{question.number}} of {{progress.totalQuestions}}
+        </div>
+        <div class="push_two two columns"></div>
+    </div>
+
+    <div class="row cc_study_content">
+        <div class="cc_question_text">
+            <p [innerHtml]="trustedQuestionText"></p>
+        </div>
+
+        <div class="cc_choices ">
+            <div *ngFor="let answer of question.answers; let i = index">
+                <label class="radio" for="option{{i+1}}" [ngSwitch]="answer.correct">
+                    <input name="options" id="option{{i+1}}" type="radio"
+                           [value]="i"
+                           [disabled]="questionAnswered"
+                           [(ngModel)]="answeredIndex">
+                    <span></span> <span [innerHTML]="answer.answerText"></span>
+                    <span *ngSwitchCase="true" class="answer_check correct" [hidden]="!(questionAnswered && config.showAnswer)"><i
+                            class="icon-thumbs-up"></i> correct!</span>
+                    <span *ngSwitchCase="false" class="answer_check incorrect"
+                    [hidden]="!(questionAnswered && answeredIndex==i && config.showAnswer)"><i
+                            class="icon-thumbs-down"></i> incorrect!</span>
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="row cc_study_footnotes">
+        <div class="gray_italic cc_viewed">
+            <span [hidden]="!question.moduleName">{{question.moduleName}} /</span> Q: {{question.number}} of {{progress.totalQuestions}}
+            <span class="pull_right">ID: {{ question.id }}</span>
+        </div>
+    </div>
+    <hr>
+
+    <div class="row cc_study_bottom">
+        <div class="three columns cc_next_btn">
+            <div class="cc_red btn" [ngClass]="{'disabled': answeredIndex === null}" *ngIf="!questionAnswered">
+                <button (click)="checkQuestion(answeredIndex);" [disabled]="answeredIndex===null">{{buttonLabel}}</button>
+            </div>
+            <div class="cc_red btn" *ngIf="questionAnswered">
+                <button (click)="nextQuestion();">Next Question</button>
+            </div>
+        </div>
+        <div class="eight columns q_rationale">
+            <div *ngIf="questionAnswered && question.feedback && config.showFeedback">
+                <h4>Question Rationale</h4>
+                <p [innerHtml]="question.feedback"></p>
+            </div>
+        </div>
+        <div class="one columns cc_bookmark ttip" data-tooltip="Mark this question for review"
+             (click)="bookmark();" [ngClass]="{'active': question.bookmarked}" [hidden]="!config.showBookmark"></div>
+    </div>
+
+
+</div>

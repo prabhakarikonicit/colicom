@@ -1,0 +1,14 @@
+<div class="ng-modal" *ngIf="show">
+    <div class="ng-modal-overlay" (click)="hideModal()"></div>
+    <div class="ng-modal-dialog free_trial_popup">
+        <div class="ng-modal-close" (click)="hideModal()">X</div>
+        <div class="ng-modal-dialog-content">
+            <h1>Free Trial</h1>
+            <h3>Limited Access</h3>
+            <p>During the free trial you will only have access to the first category of this exam. You can make
+            unlimited study and practice attempts until  the trial period expires.</p>
+            <p><a href="{{ url | urlToEnvironment }}free-trial/index/addProductToCart?product={{ enrollment.externalOrderId }}">BUY NOW</a></p>
+            <p>To access all content and functionality</p>
+        </div>
+    </div>
+</div>

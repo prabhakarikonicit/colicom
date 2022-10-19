@@ -1,0 +1,25 @@
+<div class="ng-modal" *ngIf="show">
+    <div class="ng-modal-overlay" (click)="hideModal()"></div>
+    <div class="ng-modal-dialog free_trial_popup">
+        <div class="ng-modal-close" (click)="hideModal()">X</div>
+        <div class="ng-modal-dialog-content" *ngIf="type === 1">
+            <h1>Pre-assessment</h1>
+            <p>The <strong>Pre-assessment</strong> presents a few sample questions from each exam category. It is intended to determine your initial level of knowledge in each category. After you have completed the Pre-assessment, you will see a blue progress bar appear beside each category listed below. The progress bars will show you how well you did in the Pre-assessment for each category. This will also ensure that you spend more time in categories that need more work.</p>
+            <p><em>Note</em>q: If you would like to recheck your overall level of knowledge after studying with CompuCram for a while, we recommend that you take a Simulated Exam for the most accurate results.</p>
+        </div>
+
+        <div class="ng-modal-dialog-content" *ngIf="type === 2">
+            <h1>Exam Categories</h1>
+            <p>Each exam category has its own set of <strong>Vocabulary</strong> terms and <strong>Practice Testing</strong> questions. Just click on the title of a category to access these study options.</p>
+            <p>The <strong>Vocabulary</strong> section includes three study modes: Flash Cards, Matching, and Fill-in-the-blank. These modes are intended to familiarize you with some of the important terms you may encounter in the Practice Testing questions for the category you are studying. We recommend that you go through all vocabulary terms at least once in Flash Card mode before moving on to the Practice Testing.</p>
+            <p><em>Note</em>: 10% of the blue progress bar for each category is based on viewing all Vocabulary terms in Flash Card mode.</p>
+            <p>The <strong>Practice Testing</strong> section presents questions that are very similar to what you will see in the real licensing exam for the category you are studying. This is where you may learn new information that was not covered in your Prelicensing education. To ensure that you have more than enough information, each category includes at least 5 times the number of questions presented from that category in the real licensing exam. The questions presented in each Practice Testing attempt will include a Rationale paragraph describing the reasoning behind the correct answer. You should keep taking the Practice Testing until you are able to achieve over 80% at least three times. After reaching this goal in all categories, you can move on to the Simulated Exams.</p>
+            <p><em>Note</em>: Your average scores in the Practice Testing will be reflected in the blue progress bar for each category. You will typically see the progress bar reach 100% in a category once you have scored over 80% at least three times in Practice Testing. However, if your Pre-assessment score was low for a certain category, you will have to achieve over 80% a few more times to fill up the progress bar.</p>
+        </div>
+
+        <div class="ng-modal-dialog-content" *ngIf="type === 3">
+            <h1>Simulated Exams</h1>
+            <p>The <strong>Simulated Exams</strong> are designed to match the format of the real licensing exam as closely as possible by presenting the correct number of questions per category, limiting the amount of time allowed to complete an attempt, and withholding all feedback until the end. There is no limit for Simulated Exam attempts and you will be presented with multiple versions before you start to see the same questions cycle back around. Be sure to read through the Rationale paragraphs for each question in the results after each attempt. If you see any categories that are trending lower than others in the Simulated Exam results, you can go back and spend more time in the Practice Testing for that category. We recommend that you keep taking the Simulated Exams until you are able to achieve over 80% at least three times. After reaching this goal, we are confident that you will be able to pass the real licensing exam.</p>
+        </div>
+    </div>
+</div>

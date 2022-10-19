@@ -1,0 +1,32 @@
+<div class='cc_wrapper cc_login_back'>
+    <div>
+        <div class="cc_login_container">
+            <div class="cc_logo"></div>
+            <form name="form" novalidate class="login-form">
+                <div class="cc_login_box">
+                    <h1>Password Reset</h1>
+
+                    <p>Please enter your email address below. You will receive a link to reset your password.</p>
+
+                    <div class="field">
+                        <input class="input" placeholder="Email Address" type="email" [formControl]='email'
+                            required autofocus />
+                    </div>
+                    <div class="cc_error" *ngIf="(authError.length>0)">
+                        The email you have entered is not in the system.
+                    </div>
+
+                    <div class="cc_red btn">
+                        <button (click)="resetPassword()" [disabled]='!email.valid'>Submit</button>
+                    </div>
+                </div>
+            </form>
+            <div class="cc_login_footer">
+                <p><i class="icon-info-circled"></i>Questions? We can help. <a href=""
+                        (click)="goToMarketingSupportSite()">Contact
+                        Customer Service</a></p>
+            </div>
+            <div class="cc_login_legal">&copy; {{ '' | currentYear }} CompuCram. All Rights Reserved</div>
+        </div>
+    </div>
+</div>

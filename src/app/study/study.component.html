@@ -1,0 +1,121 @@
+<div class="big_top cc_study_top">
+    <div class="cc_breadcrumbs">
+        <div class="row">
+            <div class="cc_breadcrumb"><a href="#dashboard">dashboard</a></div>
+            <div class="cc_breadcrumb">Study Vocabulary</div>
+        </div>
+    </div>
+    <div class="row progress_mobile">
+        <div class="cc_completion_circle">
+            <div class="cc_progress_circle progress-{{ progressQuestionsMangerService.getScore() }}">
+                <div class="cc_circle_orverlay">
+                    <div class="cc_circle_title">Category Progress</div>
+                    <div class="cc_circle_percent">{{ progressQuestionsMangerService.getScore() }}%</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="eight columns cc_study_config_wrapper">
+            <h1>Study Vocabulary</h1>
+            <div class="row cc_study_config">
+                <div class="four columns">
+                    <h4>Category</h4>
+                    <div class="picker">
+                        <select [(ngModel)]="selectedExamModuleValue" (change)="changeExamModule()">
+                            <option *ngFor="let examModule of examModules" [value]="examModule.name">{{examModule.name}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="three columns">
+                    <h4>Study Mode</h4>
+                    <div class="picker">
+                        <select [(ngModel)]="selectedModeValue" (change)="changeStudyMode()">
+                            <option *ngFor="let studyMode of studyModes"
+                                [value]="studyMode.name">{{studyMode.name}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="three columns">
+                    <h4>Study Options</h4>
+                    <div class="picker">
+                        <select [(ngModel)]="selectedOptionValue" (change)="openTab(selectedOptionValue)">
+                            <option *ngFor="let studyOption of studyOptions "
+                                [value]="studyOption.value">{{studyOption.name}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="two columns">
+                    <h4>Quantity</h4>
+                    <div class="picker">
+                        <select [(ngModel)]="selectedQuantityValue" (change)="changeStudyQuantity()">
+                            <option *ngFor="let studyQuantity of studyQuantities "
+                                [value]="studyQuantity.name">{{studyQuantity.name}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row cc_study_config">
+                <div class="twelve columns">
+                    <div class="cc_config_submit">
+                        <div class="cc_red btn">
+                            <button (click)="start()">Start Study Session</button>
+                        </div>
+                        <p>or go back to the <a href="#dashboard">Dashboard</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="four columns">
+            <div class="cc_completion_circle">
+                <div class="cc_progress_circle progress-{{ progressQuestionsMangerService.getScore() }}">
+                    <div class="cc_circle_orverlay">
+                        <div class="cc_circle_title">Category Progress</div>
+                        <div class="cc_circle_percent">{{ progressQuestionsMangerService.getScore() }}%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cc_content">
+    <div class="row progress_tabs">
+        <div class="progress_box marked" [ngClass]="{'selected' : toggle==1}"
+            (click)="openTab('bookmarked', progressQuestionsMangerService.getTotalBookmarked() )">
+            Marked For Review: <span class="cc_stat">{{ progressQuestionsMangerService.getTotalBookmarked() }}</span>
+        </div>
+        <div class="progress_box missed" [ngClass]="{'selected' : toggle==2}"
+            (click)="openTab('incorrect', progressQuestionsMangerService.getTotalIncorrect())">
+            Marked Incorrect: <span class="cc_stat">{{ progressQuestionsMangerService.getTotalIncorrect() }}</span>
+        </div>
+        <div class="progress_box unseen" [ngClass]="{'selected' : toggle==3}"
+            (click)="openTab('unseen', progressQuestionsMangerService.getTotalNotViewed())">
+            Not Seen: <span class="cc_stat">{{ progressQuestionsMangerService.getTotalNotViewed() }}</span>
+        </div>
+        <div class="progress_box all" [ngClass]="{'selected' : toggle==4}"
+            (click)="openTab('all', progressQuestionsMangerService.getTotal())">
+            All: <span class="cc_stat">{{ progressQuestionsMangerService.getTotal() }}</span></div>
+        <div class="print" (click)="print()"><i class="icon-print"></i>
+            print list
+        </div>
+    </div>
+    <div class="row cc_cards">
+        <ngx-masonry [options]="{ gutter: 20 }">
+            <div class="cc_card cc_vocab masonry-brick masonry-item" ngxMasonryItem *ngFor="let progressQuestion of questionGroups">
+                <h3 [innerHTML]="progressQuestion.question.questionText"></h3>
+
+                <p [innerHTML]="(progressQuestion.question.answers | filterKeyVal:{correct:true})[0].answerText"></p>
+                <hr>
+                <div class="two_up tiles">
+                    <div class="tile cc_footnote">Viewed {{ progressQuestion.viewed }} times</div>
+                    <div class="tile cc_bookmark ttip" data-tooltip="Mark this question for review"
+                        [ngClass]="{'active': progressQuestion.bookmarked}" (click)="bookmark(progressQuestion);">Mark
+                        for review
+                    </div>
+                </div>
+            </div>
+        </ngx-masonry>
+    </div>
+</div>

@@ -1,0 +1,24 @@
+@media print { .footer, .cc_study_config, .cc_breadcrumbs, .start_session, .progress_tabs, .cc_study_top { display: none !important; }
+  .navcontain { position: relative !important; }
+  .navcontain .navbar .row { max-width: 100% !important; }
+  .navcontain .navbar .row div.two.columns, .navcontain .navbar .row ul.five.columns { display: none; }
+  .navcontain .navbar .row div.five.columns { width: 100% !important; float: none !important; margin: 0 !important; padding: 0 !important; }
+  .navcontain .navbar .row div.five.columns .selected_exam { font-size: 15px; }
+  .cc_completion_circle { height: 50px !important; }
+  .cc_completion_circle .cc_progress_circle { height: auto !important; }
+  .cc_cards .cc_card { width: 100% !important; position: relative !important; left: 0 !important; top: 0 !important; margin-bottom: 20px !important; }
+  .cc_cards .cc_card h3 { font-size: 15px; }
+  .cc_cards .cc_card p { font-weight: 700; margin-bottom: 0; }
+  .cc_cards .cc_card .two_up.tiles { font-size: 12px; }
+  .cc_cards .cc_card hr { display: none !important; }
+  .results_page .welcome_message h1 { font-size: 30px; }
+  .results_page .cc_content { padding: 0 !important; }
+  .results_page .results_cat_hdr .columns { width: 100% !important; float: none !important; border-right: 0 !important; margin: 0 !important; padding: 0 !important; }
+  .results_page .results_cat_hdr .columns:nth-child(2), .results_page .results_cat_hdr .columns:nth-child(3), .results_page .results_cat_hdr .columns:nth-child(4), .results_page .results_cat_hdr .columns:nth-child(5) { display: inline-block !important; width: auto !important; margin-right: 25px !important; }
+  .results_page .results_cat_hdr .columns:nth-child(6) { display: none; }
+  .results_page .results_cat .cat_answers { display: block !important; }
+  .results_page .results_cat .cat_answers .question_attempt .columns { width: 100% !important; float: none !important; border-right: 0 !important; margin: 0 !important; padding: 0 !important; }
+  .results_page .results_cat .cat_answers .question_attempt .columns > h3 { font-size: 15px; font-weight: 700; }
+  .results_page .results_cat .cat_answers .question_attempt .columns .question_answers { margin: 0; }
+  .results_page .results_cat .cat_answers .question_attempt .columns .question_rationale { font-size: 12px; line-height: 1.5; }
+  .results_page .results_cat .cat_answers .question_attempt .columns .question_rationale strong { font-size: 12px; } }
